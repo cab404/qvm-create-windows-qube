@@ -210,12 +210,9 @@ for (( counter = 1; counter <= count; counter++ )); do
     ip="$(qvm-prefs "$current_name" ip)"
     qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools' || exit 1; sed -i 's/^netsh interface ipv4 set address \"Local Area Connection\" static .*$/netsh interface ipv4 set address \"Local Area Connection\" static $ip 255.255.0.0 10.137.0.8/' 'connect-to-network.bat'"
     
-    # Process modules
-    enabled_modules_file="enabled"
-    qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/modules' || exit 1; truncate -s 0 $enabled_modules_file"
+    # Add packages to install list
     for item in "${package_arr[@]}"; do
-        qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/modules' || exit 1; echo $item >> $enabled_modules_file"
-        qvm-run -p "$resources_vm" "cd '$resources_dir/modules/$item' || exit 1; ./run.sh"
+        qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/packages' || exit 1; echo '$item ' >> packages"
     done
 
     # Pack latest QWT into Auto Tools
