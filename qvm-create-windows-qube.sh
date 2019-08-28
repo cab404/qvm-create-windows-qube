@@ -17,14 +17,14 @@ usage() {
     echo "  -c, --count <number> Number of Windows qubes with given basename desired"
     echo "  -n, --netvm <netvm> NetVM for Windows to use (default: sys-firewall)"
     echo "  -b, --background Installation process will happen in a minimized window"
-    echo "  -m, --module <modules> Comma-separated list of modules to pre-install"
+    echo "  -p, --package <packages> Comma-separated list of packages to pre-install (See available packages at https://chocolatey.org/packages)"
     echo "  -i, --iso <file> Windows ISO to automatically install and setup (default: Win7_Pro_SP1_English_x64.iso)"
     echo "  -a, --answer-file <xml file> Settings for Windows installation (default: windows-7.xml)"
 }
 
 # Option strings
 short="hc:n:bm:i:a:"
-long="help,count:,netvm:,background,module:,iso:,answer-file:"
+long="help,count:,netvm:,background,package:,iso:,answer-file:"
 
 # Read options
 if ! opts=$(getopt --options=$short --longoptions=$long --name "$0" -- "$@"); then
@@ -57,8 +57,8 @@ while true; do
             background="true"
             shift
             ;;
-        -m | --module)
-            module="$2"
+        -p | --package)
+            package="$2"
             shift 2
             ;;
         -i | --iso)
@@ -110,14 +110,18 @@ fi
 resources_vm="windows-mgmt"
 resources_dir="/home/user/Documents/qvm-create-windows-qube"
 
-# Validate module
-IFS="," read -ra module_arr <<< "$module"
-for item in "${module_arr[@]}"; do
-    if ! qvm-run -p "$resources_vm" "cd '$resources_dir/modules/$item' || exit 1"; then
-        echo -e "${RED}[!]${NC} Module $item does not exist" >&2
-        exit 1
-    fi
-done
+# Validate package
+if [ "$(qvm-prefs "$resources_vm" netvm)" != "sys-whonix" ]; then
+    IFS="," read -ra package_arr <<< "$package"
+    for item in "${package_arr[@]}"; do
+        if ! qvm-run -p "$resources_vm" "if [ $(curl -so /dev/null -w '%{http_code}' "https://chocolatey.org/packages/$item") != 200 ]; then exit 1; fi"; then
+            echo -e "${RED}[!]${NC} Package $item not found" >&2
+            exit 1
+        fi
+    done
+else
+    echo -e "${RED}[!]${NC} Cannot check for existence of packages because Chocolatey uses Cloudflare and it's blocking requests from curl over Tor. Please make sure they are correct manually by visiting: https://chocolatey.org/packages" >&2
+fi
 
 # Validate iso
 if ! qvm-run -p "$resources_vm" "cd '$resources_dir/media-creation/isos' || exit 1; if ! [ -f '$iso' ]; then exit 1; fi"; then
@@ -209,7 +213,7 @@ for (( counter = 1; counter <= count; counter++ )); do
     # Process modules
     enabled_modules_file="enabled"
     qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/modules' || exit 1; truncate -s 0 $enabled_modules_file"
-    for item in "${module_arr[@]}"; do
+    for item in "${package_arr[@]}"; do
         qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/modules' || exit 1; echo $item >> $enabled_modules_file"
         qvm-run -p "$resources_vm" "cd '$resources_dir/modules/$item' || exit 1; ./run.sh"
     done
@@ -234,7 +238,7 @@ for (( counter = 1; counter <= count; counter++ )); do
         done
     fi
 
-    # Waiting for modules and updates to install...
+    # Waiting for packages and updates to install...
     sleep 3
     while qvm-check --running "$current_name" &> /dev/null; do sleep 1; done
 
