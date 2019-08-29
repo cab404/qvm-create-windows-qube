@@ -9,7 +9,7 @@ rem Not necessary because network configuration is done automatically once Qubes
 rem start cmd /c "connect-to-network.bat"
 
 for /f "tokens=*" %%i in ("chocolatey/package-list") do set size=%%~zi
-if %size% gtr 0 start cmd /c "cd chocolatey && "install.bat""
+if %size% gtr 0 start cmd /c "cd chocolatey && "install.bat" && "install-packages.bat""
 
 rem Run now because it take one restart for this setting to take effect
 start cmd /c "cd qubes-windows-tools && "allow-unsigned-drivers.bat""
