@@ -23,7 +23,7 @@ usage() {
 }
 
 # Option strings
-short="hc:n:bm:i:a:"
+short="hc:n:bp:i:a:"
 long="help,count:,netvm:,background,package:,iso:,answer-file:"
 
 # Read options
