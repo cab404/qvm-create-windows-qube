@@ -42,6 +42,7 @@ PRs are welcome! The codebase of this project was built to be as modular as poss
     3. This seems perfect: https://rwmj.wordpress.com/2010/11/04/customizing-a-windows-7-install-iso/ (guestfish, dnf info libguestfs-tools or apt show libguestfs-tools)
     4. New development! We should instead use packer (apt show packer) to further automate deployment (faster too!): https://www.hurryupandwait.io/blog/creating-windows-base-images-for-virtualbox-and-hyper-v-using-packer-boxstarter-and-vagrant (Possibly also Boxstarter)
     5. Issues with packer: There doesn't seem to be a dnf package and lots of dependencies to install on every boot of windows-mgmt if it is to remain an AppVM
+    6. In my experience QWT also seems to be the most stable on the lastest version of Windows 7
 - [ ] Auto Tools takes D:\\ making QWT put the user profile on E:\\; it would be nicer to have it on D:\\ so there is no awkward gap in the middle
 - [ ] Support Windows 10 (Note: QWT doesn't fully support Windows 10 yet)
 - [ ] Provision Chocolatey (#2)
