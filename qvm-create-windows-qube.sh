@@ -211,8 +211,9 @@ for (( counter = 1; counter <= count; counter++ )); do
     qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools' || exit 1; sed -i 's/^netsh interface ipv4 set address \"Local Area Connection\" static .*$/netsh interface ipv4 set address \"Local Area Connection\" static $ip 255.255.0.0 10.137.0.8/' 'connect-to-network.bat'"
     
     # Add packages to install list
+    qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/chocolatey' || exit 1; truncate -s 0 package-list"
     for item in "${package_arr[@]}"; do
-        qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/packages' || exit 1; echo '$item ' >> packages"
+        qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/chocolatey' || exit 1; echo '$item ' >> package-list"
     done
 
     # Pack latest QWT into Auto Tools
