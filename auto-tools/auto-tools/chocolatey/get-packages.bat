@@ -9,6 +9,6 @@ if %size% gtr 0 (
     @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "$env:chocolateyUseWindowsCompression = 'true'; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
     
     rem Read packages from package-list and install them
-    for /f "usebackq" %%i in ("package-list") do set packages=%%i
+    for /f "usebackq tokens=*" %%i in ("package-list") do set packages=%%i
     choco -y install %packages%
 )
