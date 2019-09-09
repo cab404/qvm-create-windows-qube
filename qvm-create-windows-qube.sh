@@ -17,7 +17,7 @@ usage() {
     echo "  -c, --count <number> Number of Windows qubes with given basename desired"
     echo "  -n, --netvm <netvm> NetVM for Windows to use (default: sys-firewall)"
     echo "  -b, --background Installation process will happen in a minimized window"
-    echo "  -p, --package <packages> Comma-separated list of packages to pre-install (See available packages at: https://chocolatey.org/packages)"
+    echo "  -p, --package <packages> Comma-separated list of packages to pre-install (see available packages at: https://chocolatey.org/packages)"
     echo "  -i, --iso <file> Windows ISO to automatically install and setup (default: Win7_Pro_SP1_English_x64.iso)"
     echo "  -a, --answer-file <xml file> Settings for Windows installation (default: windows-7.xml)"
 }
