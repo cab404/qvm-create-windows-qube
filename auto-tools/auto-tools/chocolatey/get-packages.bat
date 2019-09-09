@@ -1,4 +1,5 @@
 @echo off
+title %~f0
 
 rem If package-list is not empty
 for /f "tokens=*" %%i in ("package-list") do set size=%%~zi
