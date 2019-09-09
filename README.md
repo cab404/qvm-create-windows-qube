@@ -19,7 +19,7 @@ Usage: ./qvm-create-windows-qube.sh [options] <name>
   -c, --count <number> Number of Windows qubes with given basename desired
   -n, --netvm <netvm> NetVM for Windows to use (default: sys-firewall)
   -b, --background Installation process will happen in a minimized window
-  -p, --package <packages> Comma-separated list of packages to pre-install (See available packages at https://chocolatey.org/packages)
+  -p, --package <packages> Comma-separated list of packages to pre-install (See available packages at: https://chocolatey.org/packages)
   -i, --iso <file> Windows ISO to automatically install and setup (default: Win7_Pro_SP1_English_x64.iso)
   -a, --answer-file <xml file> Settings for Windows installation (default: windows-7.xml)
 ```
