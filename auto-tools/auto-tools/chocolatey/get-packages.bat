@@ -10,5 +10,5 @@ if %size% gtr 0 (
     
     rem Read packages from package-list and install them
     for /f "usebackq tokens=*" %%i in ("package-list") do set packages=%%i
-    choco -y install %packages%
+    choco install -y %packages%
 )
