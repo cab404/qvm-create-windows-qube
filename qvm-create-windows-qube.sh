@@ -214,7 +214,7 @@ for (( counter = 1; counter <= count; counter++ )); do
     # Add packages to install list
     qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/chocolatey' || exit 1; truncate -s 0 package-list"
     for item in "${package_arr[@]}"; do
-        qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/chocolatey' || exit 1; echo '$item ' >> package-list"
+        qvm-run -p "$resources_vm" "cd '$resources_dir/auto-tools/auto-tools/chocolatey' || exit 1; echo -n '$item ' >> package-list"
     done
 
     # Pack latest QWT into Auto Tools
