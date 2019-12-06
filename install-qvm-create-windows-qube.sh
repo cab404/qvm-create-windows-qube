@@ -26,7 +26,7 @@ qvm-run -p "$resources_vm" "cd '$resources_dir' && ./download-windows.sh"
 sudo qubes-dom0-update --enablerepo=qubes-dom0-current-testing qubes-windows-tools
 
 # Copy script into Dom0
-qvm-run -p "$resources_vm" "cat '$resources_dir/qvm-create-windows-qube.sh' > qvm-create-windows-qube.sh"
+qvm-run -p "$resources_vm" "cat '$resources_dir/qvm-create-windows-qube.sh'" > qvm-create-windows-qube.sh
 
 # Allow execution of script
 chmod +x qvm-create-windows-qube.sh
